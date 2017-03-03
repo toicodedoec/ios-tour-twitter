@@ -14,7 +14,7 @@
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -251,7 +251,7 @@
                         <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" title="Log out" id="ldp-Yr-zKz">
                             <connections>
-                                <action selector="onLogout:" destination="zEx-UO-hpG" id="O8l-EH-uzK"/>
+                                <action selector="logOut:" destination="zEx-UO-hpG" id="9YT-zn-Iy8"/>
                             </connections>
                         </barButtonItem>
                         <view key="titleView" contentMode="scaleToFill" id="D9D-af-KbT">

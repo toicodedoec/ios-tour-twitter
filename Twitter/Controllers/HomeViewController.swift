@@ -47,6 +47,18 @@ class HomeViewController: UIViewController {
             self.tblHome.reloadData()
         })
     }
+    
+    @IBAction func logOut(_ sender: UIBarButtonItem) {
+        TwitterClientUtils.shared.requestSerializer.removeAccessToken()
+        Yours.shared = nil
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginViewController")
+        appDelegate.window?.rootViewController = nextVC
+
+        
+    }
+    
 }
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
