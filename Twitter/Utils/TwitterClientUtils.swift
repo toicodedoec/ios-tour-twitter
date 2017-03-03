@@ -101,5 +101,53 @@ class TwitterClientUtils: BDBOAuth1SessionManager {
             self.loginFailure?(error)
         }
     }
+    
+    func processingLikeState(id: Int, isFavorite: Bool, success: @escaping (Tweet) -> Void, failure: ((Error) -> Void)? = nil) {
+        var params = [String: AnyObject]()
+        params["id"] = id as AnyObject
+        
+        let url = isFavorite ? "1.1/favorites/create.json" : "1.1/favorites/destroy.json"
+        
+        post("1.1/favorites/create.json", parameters: params, progress: nil, success: { (task, response) -> Void in
+            let dictionary = response as! NSDictionary
+            let tweet = Tweet(dictionary: dictionary)
+            success(tweet)
+        }, failure: { (task, error) -> Void in
+            print("like tweet error: \(error.localizedDescription)")
+            failure?(error)
+        })
+    }
+    
+    func processingRetweetState(id: Int, isTweet: Bool, success: @escaping (Tweet) -> Void, failure: ((Error) -> Void)? = nil) {
+        let url = isTweet ? "1.1/statuses/retweet/\(id).json" : "1.1/statuses/unretweet/\(id).json"
+        
+        post(url, parameters: nil, progress: nil, success: { (task, response) -> Void in
+            let dictionary = response as! NSDictionary
+            let tweet = Tweet(dictionary: dictionary)
+            success(tweet)
+        }, failure: { (task, error) -> Void in
+            print("tweet state error: \(error.localizedDescription)")
+            failure?(error)
+        })
+    }
+    
+    // new tweet
+    func processingNewTweet(content: String, replyId: Int?, success: @escaping (Tweet) -> Void, failure: ((Error) -> Void)? = nil) {
+        var params = [String: AnyObject]()
+        params["status"] = content as AnyObject
+        
+        if let replyId = replyId {
+            params["in_reply_to_status_id"] = replyId as AnyObject
+        }
+        
+        post("1.1/statuses/update.json", parameters: params, progress: nil, success: { (task, response) -> Void in
+            let dictionary = response as! NSDictionary
+            let tweet = Tweet(dictionary: dictionary)
+            success(tweet)
+        }, failure: { (task, error) -> Void in
+            print("new tweet error: \(error.localizedDescription)")
+            failure?(error)
+        })
+    }
 }
 

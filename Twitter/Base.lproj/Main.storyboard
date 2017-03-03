@@ -53,7 +53,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136.80000000000001" y="135.38230884557723"/>
+            <point key="canvasLocation" x="-841" y="54"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="6Q0-xT-Uo6">
@@ -82,7 +82,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U5l-0A-Zjx" userLabel="toolContainer">
                                                     <rect key="frame" x="8" y="68" width="50" height="68"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dfv-GF-OCf" userLabel="onLike">
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dfv-GF-OCf" userLabel="btnLike">
                                                             <rect key="frame" x="5" y="26" width="16" height="16"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="16" id="RQD-M2-6BS"/>
@@ -90,7 +90,7 @@
                                                             </constraints>
                                                             <state key="normal" image="othersLike"/>
                                                             <connections>
-                                                                <action selector="onLike:" destination="QSC-lE-UTg" eventType="touchUpInside" id="o2s-39-JEG"/>
+                                                                <action selector="like:" destination="QSC-lE-UTg" eventType="touchUpInside" id="Oyc-Ma-tWW"/>
                                                             </connections>
                                                         </button>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="like" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ksw-K4-1al">
@@ -99,7 +99,7 @@
                                                             <color key="textColor" red="0.66274509800000003" green="0.72156862749999995" blue="0.74901960779999999" alpha="1" colorSpace="custom" customColorSpace="adobeRGB1998"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9s0-m9-DCz" userLabel="reply">
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9s0-m9-DCz" userLabel="btnRep">
                                                             <rect key="frame" x="17.5" y="5" width="16" height="16"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="16" id="K5O-Pd-HGn"/>
@@ -107,10 +107,10 @@
                                                             </constraints>
                                                             <state key="normal" image="comment"/>
                                                             <connections>
-                                                                <action selector="onReply:" destination="QSC-lE-UTg" eventType="touchUpInside" id="P1b-Pr-2Sp"/>
+                                                                <action selector="reply:" destination="QSC-lE-UTg" eventType="touchUpInside" id="Pc2-Qe-Lvp"/>
                                                             </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pCd-lT-EhG" userLabel="onRetweet">
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pCd-lT-EhG" userLabel="btnRetweet">
                                                             <rect key="frame" x="5" y="47" width="16" height="16"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="16" id="AiO-8N-G87"/>
@@ -118,7 +118,7 @@
                                                             </constraints>
                                                             <state key="normal" image="reTweet"/>
                                                             <connections>
-                                                                <action selector="onRetweet:" destination="QSC-lE-UTg" eventType="touchUpInside" id="SGo-oa-GuA"/>
+                                                                <action selector="retweet:" destination="QSC-lE-UTg" eventType="touchUpInside" id="KQe-Hg-FXe"/>
                                                             </connections>
                                                         </button>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="tweet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tjO-te-LvZ">
@@ -224,6 +224,8 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="btnLike" destination="Dfv-GF-OCf" id="Xjy-nV-kCY"/>
+                                            <outlet property="btnRetweet" destination="pCd-lT-EhG" id="0vo-LQ-Z6o"/>
                                             <outlet property="imgAvatar" destination="fgI-JH-9BB" id="PAC-eB-a7b"/>
                                             <outlet property="imgPost" destination="Cqn-Rd-2D6" id="XvB-9H-8Fe"/>
                                             <outlet property="imgPostView" destination="Cqn-Rd-2D6" id="FQD-9H-Nhb"/>
@@ -280,7 +282,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h63-Qh-wyA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2892" y="850.52473763118451"/>
+            <point key="canvasLocation" x="1138" y="54"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="pgJ-h8-InA">
@@ -298,7 +300,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6wc-gD-2Q6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1952.8" y="850.52473763118451"/>
+            <point key="canvasLocation" x="199" y="54"/>
         </scene>
     </scenes>
     <resources>

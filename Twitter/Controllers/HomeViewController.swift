@@ -55,8 +55,15 @@ class HomeViewController: UIViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginViewController")
         appDelegate.window?.rootViewController = nextVC
-
-        
+    }
+    
+    @IBAction func reply(_ sender: Any) {
+    }
+    
+    @IBAction func retweet(_ sender: UIButton) {
+    }
+    
+    @IBAction func like(_ sender: UIButton) {
     }
     
 }
@@ -69,8 +76,28 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tweetCell", for: indexPath) as! TweetCell
         cell.tweet = tweets[indexPath.row]
+        cell.delegate = self
         return cell
     }
+}
+
+extension HomeViewController: TweetCellDelegate {
+    func like(cell: TweetCell) {
+        let ip = tblHome.indexPath(for: cell)
+        
+        tweets[(ip?.row)!].isFavorited = cell.tweet.isFavorited
+        tweets[(ip?.row)!].favoritesCount = cell.tweet.favoritesCount
+        tweets[(ip?.row)!].isRetweeted = cell.tweet.isRetweeted
+        tweets[(ip?.row)!].retweetCount = cell.tweet.retweetCount
+        
+        tblHome.reloadRows(at: [ip!], with: .none)
+    }
     
+    func reply(cell: TweetCell) {
+        
+    }
     
+    func tweet(cell: TweetCell) {
+        
+    }
 }
