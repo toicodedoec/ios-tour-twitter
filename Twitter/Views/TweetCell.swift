@@ -21,7 +21,6 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var lblTime: UILabel!
     @IBOutlet weak var lblPostContent: UILabel!
-    @IBOutlet weak var imgPost: UIView!
     @IBOutlet weak var lblRetweetCounting: UILabel!
     @IBOutlet weak var lblLikeCounting: UILabel!
     
@@ -32,8 +31,13 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var btnLike: UIButton!
     @IBOutlet weak var btnRetweet: UIButton!
     
+    @IBOutlet weak var imgPostContent: UIImageView!
+    
+    @IBOutlet weak var heightCons: NSLayoutConstraint!
+    
     var delegate: TweetCellDelegate!
     
+    @IBOutlet weak var tweetCellContentView: UIView!
     var tweet: Tweet! {
         didSet {
             
@@ -45,39 +49,36 @@ class TweetCell: UITableViewCell {
             lblName.text = tweet.user?.screenname
             lblTime.text = "\(tweet.createdAtString(short: true))"
             lblPostContent.text = tweet.text
-            lblRetweetCounting.text = tweet.retweetCount! > 0 ? "\(tweet.retweetCount!)" : ""
-            lblLikeCounting.text = tweet.favoritesCount! > 0 ? "\(tweet.favoritesCount!)" : ""
+            lblRetweetCounting.text = tweet.retweetCount! > 0 ? "\(tweet.retweetCount!)" : "0"
+            lblLikeCounting.text = tweet.favoritesCount! > 0 ? "\(tweet.favoritesCount!)" : "0"
             
-            btnRetweet.imageView?.image = #imageLiteral(resourceName: "reTweeted")
+            btnRetweet.imageView?.image = tweet.isRetweeted ? #imageLiteral(resourceName: "reTweeted") : #imageLiteral(resourceName: "reTweet")
             btnLike.imageView?.image = tweet.isFavorited ? #imageLiteral(resourceName: "yourLike") : #imageLiteral(resourceName: "othersLike")
             
-            imgPostViewHeightConstraint.constant = 0
+            lblRetweetCounting.sizeToFit()
+            lblLikeCounting.sizeToFit()
             
             if tweet.imageUrls.count > 0 {
                 /*
-                 let uiImgPostView = UIImageView()
-                 
-                 uiImgPostView.frame.size.width = imgPostView.frame.size.width
-                 uiImgPostView.frame.size.height = 150
-                 
+                let uiImgPostView = UIImageView()
+                
                  uiImgPostView.autoresizingMask = [.flexibleTopMargin, .flexibleHeight, .flexibleRightMargin, .flexibleLeftMargin, .flexibleTopMargin, .flexibleWidth]
                  uiImgPostView.contentMode = .scaleAspectFill
                  uiImgPostView.clipsToBounds = true
-                 
-                 uiImgPostView.setImageWith(tweet.imageUrls[0], placeholderImage: #imageLiteral(resourceName: "loading"))
-                 
-                 imgPostView.addSubview(uiImgPostView)
-                 
-                 let verConstraint = NSLayoutConstraint(item: uiImgPostView, attribute: .top, relatedBy: .equal,
-                 toItem: imgPostView, attribute: .top,
-                 multiplier: 1.0, constant: 0.0)
-                 
-                 imgPostView.addConstraint(verConstraint)
-                 imgPostView.layer.borderColor = UIColor.black.cgColor
-                 imgPostView.layer.borderWidth = 1
-                 
-                 imgPostViewHeightConstraint.constant = 150
-                 */
+ 
+                uiImgPostView.setImageWith(tweet.imageUrls[0], placeholderImage: #imageLiteral(resourceName: "loading"))
+                
+                imgPostView.addSubview(uiImgPostView)
+                uiImgPostView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+                imgPostView.layer.borderColor = UIColor.cyan.cgColor
+                imgPostView.layer.borderWidth = 1
+                imgPostViewHeightConstraint.constant = 150
+                */
+                heightCons.constant = 150
+                imgPostContent.setImageWith(tweet.imageUrls[0], placeholderImage: #imageLiteral(resourceName: "loading"))
+            } else {
+                heightCons.constant = 0
+                tweetCellContentView.willRemoveSubview(imgPostContent)
             }
         }
     }
@@ -94,6 +95,7 @@ class TweetCell: UITableViewCell {
     }
     
     @IBAction func reply(_ sender: UIButton) {
+        
     }
     
     @IBAction func like(_ sender: UIButton) {
@@ -105,8 +107,10 @@ class TweetCell: UITableViewCell {
     }
     
     @IBAction func retweet(_ sender: UIButton) {
-        btnRetweet.imageView?.image = #imageLiteral(resourceName: "reTweeted")
+        TwitterClientUtils.shared.processingRetweetState(id: tweet.id!, isTweet: tweet.isRetweeted, success: { (t) in
+            self.tweet.isRetweeted = t.isRetweeted
+            self.tweet.retweetCount = t.retweetCount
+            self.delegate.tweet(cell: self)
+        })
     }
-    
-    
 }

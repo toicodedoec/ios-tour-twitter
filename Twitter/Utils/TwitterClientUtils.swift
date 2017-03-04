@@ -106,9 +106,12 @@ class TwitterClientUtils: BDBOAuth1SessionManager {
         var params = [String: AnyObject]()
         params["id"] = id as AnyObject
         
-        let url = isFavorite ? "1.1/favorites/create.json" : "1.1/favorites/destroy.json"
+        let url1: String = isFavorite ? String(describing: "1.1/favorites/create.json") : String(describing: "1.1/favorites/destroy.json")
         
-        post("1.1/favorites/create.json", parameters: params, progress: nil, success: { (task, response) -> Void in
+        var url: String = isFavorite ? "1.1/favorites/create.json" : "1.1/favorites/destroy.json"
+        url = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+
+        post(url, parameters: params, progress: nil, success: { (task, response) -> Void in
             let dictionary = response as! NSDictionary
             let tweet = Tweet(dictionary: dictionary)
             success(tweet)

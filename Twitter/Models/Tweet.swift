@@ -26,6 +26,7 @@ class Tweet: NSObject {
         self.dictionary = dictionary
         id = dictionary["id"] as? Int
         text = dictionary["text"] as? String
+        
         if let timestampString = dictionary["created_at"] as? String {
             let timeFormater = DateFormatter()
             timeFormater.dateFormat = "EEE MMM d HH:mm:ss Z y" // Tue Aug 28 21:16:23 +0000 2012

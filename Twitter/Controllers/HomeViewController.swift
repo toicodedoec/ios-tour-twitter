@@ -11,6 +11,13 @@ import UIKit
 class HomeViewController: UIViewController {
     
     @IBOutlet weak var tblHome: UITableView!
+    
+    let refreshControl = UIRefreshControl()
+    
+    var isLoadingMore = false
+    
+    var loadingMoreView: InfiniteLoadingView!
+    
     var tweets = [Tweet]()
     
     override func viewDidLoad() {
@@ -22,6 +29,16 @@ class HomeViewController: UIViewController {
         
         tblHome.rowHeight = UITableViewAutomaticDimension
         tblHome.estimatedRowHeight = 200
+        
+        // infinite scroll
+        let frame = CGRect(x: 0, y: 0, width: tblHome.bounds.size.width, height: InfiniteLoadingView.defaultHeight)
+        loadingMoreView = InfiniteLoadingView(frame: frame)
+        tblHome.tableFooterView = loadingMoreView
+        loadingMoreView.startAnimating()
+        
+        // pull to refresh
+        refreshControl.addTarget(self, action: #selector(loadData), for: UIControlEvents.valueChanged)
+        tblHome.addSubview(refreshControl)
         
         loadData()
     }
@@ -45,7 +62,21 @@ class HomeViewController: UIViewController {
         TwitterClientUtils.shared.homeTimeline(count: nil, maxId: nil, success: { (tweets) in
             self.tweets = tweets
             self.tblHome.reloadData()
+            self.refreshControl.endRefreshing()
         })
+    }
+    
+    func loadMoreTweet() {
+        let maxId = tweets[tweets.count - 1].id! - 1
+        TwitterClientUtils.shared.homeTimeline(count: nil, maxId: maxId, success: { (tweets) in
+            self.tweets += tweets
+            self.isLoadingMore = false
+            self.loadingMoreView!.stopAnimating()
+            self.tblHome.reloadData()
+        }) { (error) in
+            self.isLoadingMore = false
+            self.loadingMoreView!.stopAnimating()
+        }
     }
     
     @IBAction func logOut(_ sender: UIBarButtonItem) {
@@ -55,15 +86,6 @@ class HomeViewController: UIViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginViewController")
         appDelegate.window?.rootViewController = nextVC
-    }
-    
-    @IBAction func reply(_ sender: Any) {
-    }
-    
-    @IBAction func retweet(_ sender: UIButton) {
-    }
-    
-    @IBAction func like(_ sender: UIButton) {
     }
     
 }
@@ -87,8 +109,6 @@ extension HomeViewController: TweetCellDelegate {
         
         tweets[(ip?.row)!].isFavorited = cell.tweet.isFavorited
         tweets[(ip?.row)!].favoritesCount = cell.tweet.favoritesCount
-        tweets[(ip?.row)!].isRetweeted = cell.tweet.isRetweeted
-        tweets[(ip?.row)!].retweetCount = cell.tweet.retweetCount
         
         tblHome.reloadRows(at: [ip!], with: .none)
     }
@@ -98,6 +118,28 @@ extension HomeViewController: TweetCellDelegate {
     }
     
     func tweet(cell: TweetCell) {
+        let ip = tblHome.indexPath(for: cell)
         
+        tweets[(ip?.row)!].isRetweeted = cell.tweet.isRetweeted
+        tweets[(ip?.row)!].retweetCount = cell.tweet.retweetCount
+        
+        tblHome.reloadRows(at: [ip!], with: .none)
     }
 }
+
+extension HomeViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (!isLoadingMore) {
+            let scrollViewContentHeight = tblHome.contentSize.height
+            let scrollOffsetThreshold = scrollViewContentHeight - tblHome.bounds.size.height
+            
+            if(scrollView.contentOffset.y > scrollOffsetThreshold && tblHome.isDragging) {
+                isLoadingMore = true
+                loadingMoreView!.startAnimating()
+                
+                loadMoreTweet()
+            }
+        }
+    }
+}
+
