@@ -102,27 +102,23 @@ class TwitterClientUtils: BDBOAuth1SessionManager {
         }
     }
     
-    func processingLikeState(id: Int, isFavorite: Bool, success: @escaping (Tweet) -> Void, failure: ((Error) -> Void)? = nil) {
+    func processingLikeState(id: Int, isFavorited: Bool, success: @escaping (Tweet) -> Void, failure: ((Error) -> Void)? = nil) {
         var params = [String: AnyObject]()
         params["id"] = id as AnyObject
         
-        let url1: String = isFavorite ? String(describing: "1.1/favorites/create.json") : String(describing: "1.1/favorites/destroy.json")
-        
-        var url: String = isFavorite ? "1.1/favorites/create.json" : "1.1/favorites/destroy.json"
-        url = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-
+        let url: String = isFavorited ? "1.1/favorites/destroy.json" : "1.1/favorites/create.json"
         post(url, parameters: params, progress: nil, success: { (task, response) -> Void in
             let dictionary = response as! NSDictionary
             let tweet = Tweet(dictionary: dictionary)
             success(tweet)
         }, failure: { (task, error) -> Void in
-            print("like tweet error: \(error.localizedDescription)")
+            print("like/unlike tweet error: \(error.localizedDescription)")
             failure?(error)
         })
     }
     
-    func processingRetweetState(id: Int, isTweet: Bool, success: @escaping (Tweet) -> Void, failure: ((Error) -> Void)? = nil) {
-        let url = isTweet ? "1.1/statuses/retweet/\(id).json" : "1.1/statuses/unretweet/\(id).json"
+    func processingRetweetState(id: Int, isTweeted: Bool, success: @escaping (Tweet) -> Void, failure: ((Error) -> Void)? = nil) {
+        let url = !isTweeted ? "1.1/statuses/retweet/\(id).json" : "1.1/statuses/unretweet/\(id).json"
         
         post(url, parameters: nil, progress: nil, success: { (task, response) -> Void in
             let dictionary = response as! NSDictionary

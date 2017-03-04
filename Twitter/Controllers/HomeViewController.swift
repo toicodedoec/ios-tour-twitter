@@ -110,7 +110,9 @@ extension HomeViewController: TweetCellDelegate {
         tweets[(ip?.row)!].isFavorited = cell.tweet.isFavorited
         tweets[(ip?.row)!].favoritesCount = cell.tweet.favoritesCount
         
-        tblHome.reloadRows(at: [ip!], with: .none)
+        cell.btnLike.imageView?.image = cell.tweet.isFavorited ? #imageLiteral(resourceName: "yourLike") : #imageLiteral(resourceName: "othersLike")
+        
+        tblHome.reloadRows(at: [ip!], with: .fade)
     }
     
     func reply(cell: TweetCell) {
@@ -122,6 +124,8 @@ extension HomeViewController: TweetCellDelegate {
         
         tweets[(ip?.row)!].isRetweeted = cell.tweet.isRetweeted
         tweets[(ip?.row)!].retweetCount = cell.tweet.retweetCount
+        
+        cell.btnRetweet.imageView?.image = cell.tweet.isRetweeted ? #imageLiteral(resourceName: "reTweeted") : #imageLiteral(resourceName: "reTweet")
         
         tblHome.reloadRows(at: [ip!], with: .none)
     }

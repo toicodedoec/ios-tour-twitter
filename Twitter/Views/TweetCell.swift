@@ -99,7 +99,7 @@ class TweetCell: UITableViewCell {
     }
     
     @IBAction func like(_ sender: UIButton) {
-        TwitterClientUtils.shared.processingLikeState(id: tweet.id!, isFavorite: tweet.isFavorited, success: { (t) in
+        TwitterClientUtils.shared.processingLikeState(id: tweet.id!, isFavorited: tweet.isFavorited, success: { (t) in
             self.tweet.isFavorited = t.isFavorited
             self.tweet.favoritesCount = t.favoritesCount
             self.delegate.like(cell: self)
@@ -107,7 +107,7 @@ class TweetCell: UITableViewCell {
     }
     
     @IBAction func retweet(_ sender: UIButton) {
-        TwitterClientUtils.shared.processingRetweetState(id: tweet.id!, isTweet: tweet.isRetweeted, success: { (t) in
+        TwitterClientUtils.shared.processingRetweetState(id: tweet.id!, isTweeted: tweet.isRetweeted, success: { (t) in
             self.tweet.isRetweeted = t.isRetweeted
             self.tweet.retweetCount = t.retweetCount
             self.delegate.tweet(cell: self)
