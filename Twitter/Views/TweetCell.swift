@@ -75,7 +75,7 @@ class TweetCell: UITableViewCell {
                 imgPostViewHeightConstraint.constant = 150
                 */
                 heightCons.constant = 150
-                imgPostContent.setImageWith(tweet.imageUrls[0], placeholderImage: #imageLiteral(resourceName: "loading"))
+                imgPostContent.setImageWith(tweet.imageUrls[0], placeholderImage: #imageLiteral(resourceName: "icon"))
             } else {
                 heightCons.constant = 0
                 tweetCellContentView.willRemoveSubview(imgPostContent)

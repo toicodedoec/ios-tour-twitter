@@ -105,6 +105,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension HomeViewController: TweetCellDelegate {
     func like(cell: TweetCell) {
+        GuiUtils.showLoadingIndicator()
         let ip = tblHome.indexPath(for: cell)
         
         tweets[(ip?.row)!].isFavorited = cell.tweet.isFavorited
@@ -113,6 +114,7 @@ extension HomeViewController: TweetCellDelegate {
         cell.btnLike.imageView?.image = cell.tweet.isFavorited ? #imageLiteral(resourceName: "yourLike") : #imageLiteral(resourceName: "othersLike")
         
         tblHome.reloadRows(at: [ip!], with: .fade)
+        GuiUtils.dismissLoadingIndicator()
     }
     
     func reply(cell: TweetCell) {
@@ -120,6 +122,7 @@ extension HomeViewController: TweetCellDelegate {
     }
     
     func tweet(cell: TweetCell) {
+        GuiUtils.showLoadingIndicator()
         let ip = tblHome.indexPath(for: cell)
         
         tweets[(ip?.row)!].isRetweeted = cell.tweet.isRetweeted
@@ -128,6 +131,7 @@ extension HomeViewController: TweetCellDelegate {
         cell.btnRetweet.imageView?.image = cell.tweet.isRetweeted ? #imageLiteral(resourceName: "reTweeted") : #imageLiteral(resourceName: "reTweet")
         
         tblHome.reloadRows(at: [ip!], with: .none)
+        GuiUtils.dismissLoadingIndicator()
     }
 }
 

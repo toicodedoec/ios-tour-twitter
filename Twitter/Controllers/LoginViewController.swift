@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MBProgressHUD
 import SVProgressHUD
 
 class LoginViewController: UIViewController {
@@ -28,9 +27,7 @@ class LoginViewController: UIViewController {
     }
     
     func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        SVProgressHUD.setBackgroundColor(UIColor.clear)
-        SVProgressHUD.setForegroundColor(UIColor.blue)
-        SVProgressHUD.show()
+        GuiUtils.showLoadingIndicator()
         TwitterClientUtils.shared.login(success: {
             TwitterClientUtils.shared.currentAccount(success: { (user) in
                 SVProgressHUD.dismiss()
