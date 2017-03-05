@@ -10,9 +10,9 @@ import UIKit
 import SnapKit
 
 @objc protocol TweetCellDelegate {
-    func like(cell: TweetCell)
-    func tweet(cell: TweetCell)
-    func reply(cell: TweetCell)
+    @objc optional func like(cell: TweetCell)
+    @objc optional func tweet(cell: TweetCell)
+    @objc optional func reply(cell: TweetCell)
 }
 
 class TweetCell: UITableViewCell {
@@ -80,14 +80,14 @@ class TweetCell: UITableViewCell {
     }
     
     @IBAction func reply(_ sender: UIButton) {
-        delegate.reply(cell: self)
+        delegate.reply!(cell: self)
     }
     
     @IBAction func like(_ sender: UIButton) {
         TwitterClientUtils.shared.processingLikeState(id: tweet.id!, isFavorited: tweet.isFavorited, success: { (t) in
             self.tweet.isFavorited = t.isFavorited
             self.tweet.favoritesCount = t.favoritesCount
-            self.delegate.like(cell: self)
+            self.delegate.like!(cell: self)
         })
     }
     
@@ -95,7 +95,7 @@ class TweetCell: UITableViewCell {
         TwitterClientUtils.shared.processingRetweetState(id: tweet.id!, isTweeted: tweet.isRetweeted, success: { (t) in
             self.tweet.isRetweeted = t.isRetweeted
             self.tweet.retweetCount = t.retweetCount
-            self.delegate.tweet(cell: self)
+            self.delegate.tweet!(cell: self)
         })
     }
 }

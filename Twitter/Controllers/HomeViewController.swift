@@ -91,6 +91,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         cell.delegate = self
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "detailSegue", sender: self)
+    }
 }
 
 extension HomeViewController: TweetCellDelegate {
@@ -138,6 +142,9 @@ extension HomeViewController: TweetCellDelegate {
             let nc = segue.destination as! UINavigationController
             let vc = nc.topViewController as! AddingTweetViewController
             vc.delegate = self
+        } else if segue.identifier == "detailSegue" {
+            let nextVc = segue.destination as! TweetDetailViewController
+            nextVc.tweet = tweets[(tblHome.indexPathForSelectedRow?.row)!]
         }
     }
 }

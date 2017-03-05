@@ -23,6 +23,9 @@ class AddingTweetViewController: UIViewController {
     @IBOutlet weak var btnHash: UIButton!
     @IBOutlet weak var btnAttach: UIButton!
     @IBOutlet weak var btnLink: UIButton!
+    @IBOutlet weak var lblReplyTo: UILabel!
+    @IBOutlet weak var viewReplyTo: UIView!
+    @IBOutlet weak var consReplyToHeight: NSLayoutConstraint!
     
     var isOk: Bool = false;
     var tweet: Tweet?
@@ -40,9 +43,12 @@ class AddingTweetViewController: UIViewController {
             navigationItem.title = "Reply"
             btnPost.setTitle("Reply", for: .disabled)
             btnPost.setTitle("Reply", for: .normal)
-            //replyTitle.text = "Reply to \(tweet.user!.name!)"
-            //replyTitleContainer.isHidden = false
+            lblReplyTo.text = "Reply to \(tweet.user!.name!)"
+            viewReplyTo.isHidden = false
             txtContent.text = "@\(tweet.user!.screenname!) "
+        } else {
+            consReplyToHeight.constant = 0
+            self.view.willRemoveSubview(viewReplyTo)
         }
         
         // Do any additional setup after loading the view.
@@ -87,7 +93,6 @@ class AddingTweetViewController: UIViewController {
                 })
             } else {
                 TwitterClientUtils.shared.processingAddTweet(content: txtContent.text, replyId: 1000, success: { (t) in
-                    // TODO: why it throws [fatal error: unexpectedly found nil while unwrapping an Optional value] @here
                     self.delegate.didAddingTweet(addingTweet: t)
                     GuiUtils.dismissLoadingIndicator()
                     self.dismiss(animated: true, completion: nil)
