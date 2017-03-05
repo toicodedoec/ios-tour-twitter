@@ -307,7 +307,7 @@
         <!--New Tweet-->
         <scene sceneID="ja4-lG-T8s">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="RQG-DQ-9nw" customClass="NewTweetViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="RQG-DQ-9nw" customClass="AddingTweetViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="srm-y2-fqN"/>
                         <viewControllerLayoutGuide type="bottom" id="Na3-TQ-m7b"/>
@@ -418,9 +418,9 @@
                                 </constraints>
                             </view>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="stop" id="m1K-1u-iBr">
+                        <barButtonItem key="rightBarButtonItem" image="cancel" id="m1K-1u-iBr">
                             <connections>
-                                <action selector="onCancel:" destination="RQG-DQ-9nw" id="mNk-Ce-uVZ"/>
+                                <action selector="cancel:" destination="RQG-DQ-9nw" id="ppl-VT-jKi"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -451,6 +451,7 @@
     </scenes>
     <resources>
         <image name="Reply" width="16" height="16"/>
+        <image name="cancel" width="24" height="24"/>
         <image name="comment" width="30" height="30"/>
         <image name="icon" width="263" height="257"/>
         <image name="launch" width="225" height="225"/>
