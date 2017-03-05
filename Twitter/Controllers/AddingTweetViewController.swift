@@ -90,6 +90,7 @@ class AddingTweetViewController: UIViewController {
                     self.dismiss(animated: true, completion: nil)
                 }, failure: {(error) -> Void in
                     GuiUtils.dismissLoadingIndicator()
+                    self.showErrorAlert(title: error.localizedDescription)
                 })
             } else {
                 TwitterClientUtils.shared.processingAddTweet(content: txtContent.text, replyId: 1000, success: { (t) in
@@ -98,6 +99,7 @@ class AddingTweetViewController: UIViewController {
                     self.dismiss(animated: true, completion: nil)
                 }, failure: {(error) -> Void in
                     GuiUtils.dismissLoadingIndicator()
+                    self.showErrorAlert(title: error.localizedDescription)
                 })
             }
         }
@@ -147,5 +149,4 @@ extension AddingTweetViewController {
 
 // MARK: -Toolbar functions
 extension AddingTweetViewController {
-    
 }

@@ -8,6 +8,7 @@
 
 import Foundation
 import SVProgressHUD
+import UIKit
 
 class GuiUtils {
     
