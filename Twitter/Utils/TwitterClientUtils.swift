@@ -131,7 +131,7 @@ class TwitterClientUtils: BDBOAuth1SessionManager {
     }
     
     // new tweet
-    func processingNewTweet(content: String, replyId: Int?, success: @escaping (Tweet) -> Void, failure: ((Error) -> Void)? = nil) {
+    func processingAddTweet(content: String, replyId: Int?, success: @escaping (Tweet) -> Void, failure: ((Error) -> Void)? = nil) {
         var params = [String: AnyObject]()
         params["status"] = content as AnyObject
         

@@ -59,21 +59,6 @@ class TweetCell: UITableViewCell {
             lblLikeCounting.sizeToFit()
             
             if tweet.imageUrls.count > 0 {
-                /*
-                let uiImgPostView = UIImageView()
-                
-                 uiImgPostView.autoresizingMask = [.flexibleTopMargin, .flexibleHeight, .flexibleRightMargin, .flexibleLeftMargin, .flexibleTopMargin, .flexibleWidth]
-                 uiImgPostView.contentMode = .scaleAspectFill
-                 uiImgPostView.clipsToBounds = true
- 
-                uiImgPostView.setImageWith(tweet.imageUrls[0], placeholderImage: #imageLiteral(resourceName: "loading"))
-                
-                imgPostView.addSubview(uiImgPostView)
-                uiImgPostView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-                imgPostView.layer.borderColor = UIColor.cyan.cgColor
-                imgPostView.layer.borderWidth = 1
-                imgPostViewHeightConstraint.constant = 150
-                */
                 heightCons.constant = 150
                 imgPostContent.setImageWith(tweet.imageUrls[0], placeholderImage: #imageLiteral(resourceName: "icon"))
             } else {
@@ -95,7 +80,7 @@ class TweetCell: UITableViewCell {
     }
     
     @IBAction func reply(_ sender: UIButton) {
-        
+        delegate.reply(cell: self)
     }
     
     @IBAction func like(_ sender: UIButton) {

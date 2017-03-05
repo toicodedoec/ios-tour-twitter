@@ -48,15 +48,9 @@ class HomeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    override func viewWillAppear(_ animated: Bool) {
+        loadData()
+    }
     
     func loadData() {
         TwitterClientUtils.shared.homeTimeline(count: nil, maxId: nil, success: { (tweets) in
@@ -118,7 +112,9 @@ extension HomeViewController: TweetCellDelegate {
     }
     
     func reply(cell: TweetCell) {
-        
+        let ip = tblHome.indexPath(for: cell)
+        let data = [cell.tweet, ip?.row as AnyObject] as [AnyObject]
+        performSegue(withIdentifier: "newSegue", sender: data)
     }
     
     func tweet(cell: TweetCell) {
@@ -132,6 +128,17 @@ extension HomeViewController: TweetCellDelegate {
         
         tblHome.reloadRows(at: [ip!], with: .none)
         GuiUtils.dismissLoadingIndicator()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "newSegue" {
+            let data = sender as! [AnyObject]
+            let nc = segue.destination as! UINavigationController
+            let vc = nc.topViewController as! AddingTweetViewController
+            vc.tweet = data[0] as? Tweet
+            vc.index = data[1] as? Int
+            vc.delegate = self
+        }
     }
 }
 
@@ -148,6 +155,16 @@ extension HomeViewController: UIScrollViewDelegate {
                 loadMoreTweet()
             }
         }
+    }
+}
+
+extension HomeViewController: AddingTweetViewControllerDelegate {
+    func didAddingTweet(addingTweet tweet: Tweet) {
+        tweets.insert(tweet, at: 0)
+        tblHome.reloadData()
+    }
+    func didReplyingTweet(addingTweet tweet: Tweet, index: Int) {
+        tweets[index].reply.append(tweet)
     }
 }
 
