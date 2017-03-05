@@ -88,7 +88,7 @@ class AddingTweetViewController: UIViewController {
             } else {
                 TwitterClientUtils.shared.processingAddTweet(content: txtContent.text, replyId: 1000, success: { (t) in
                     // TODO: why it throws [fatal error: unexpectedly found nil while unwrapping an Optional value] @here
-                    // self.delegate.didAddingTweet(addingTweet: t)
+                    self.delegate.didAddingTweet(addingTweet: t)
                     GuiUtils.dismissLoadingIndicator()
                     self.dismiss(animated: true, completion: nil)
                 }, failure: {(error) -> Void in

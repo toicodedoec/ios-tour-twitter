@@ -48,10 +48,6 @@ class HomeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        loadData()
-    }
-    
     func loadData() {
         TwitterClientUtils.shared.homeTimeline(count: nil, maxId: nil, success: { (tweets) in
             self.tweets = tweets
@@ -114,7 +110,7 @@ extension HomeViewController: TweetCellDelegate {
     func reply(cell: TweetCell) {
         let ip = tblHome.indexPath(for: cell)
         let data = [cell.tweet, ip?.row as AnyObject] as [AnyObject]
-        performSegue(withIdentifier: "newSegue", sender: data)
+        performSegue(withIdentifier: "replySegue", sender: data)
     }
     
     func tweet(cell: TweetCell) {
@@ -131,12 +127,16 @@ extension HomeViewController: TweetCellDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "newSegue" {
+        if segue.identifier == "replySegue" {
             let data = sender as! [AnyObject]
             let nc = segue.destination as! UINavigationController
             let vc = nc.topViewController as! AddingTweetViewController
             vc.tweet = data[0] as? Tweet
             vc.index = data[1] as? Int
+            vc.delegate = self
+        } else if segue.identifier == "newSegue" {
+            let nc = segue.destination as! UINavigationController
+            let vc = nc.topViewController as! AddingTweetViewController
             vc.delegate = self
         }
     }

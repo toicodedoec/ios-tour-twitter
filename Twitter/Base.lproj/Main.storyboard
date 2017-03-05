@@ -273,13 +273,14 @@
                         </view>
                         <barButtonItem key="rightBarButtonItem" image="new" id="hJU-Ib-nDJ">
                             <connections>
-                                <segue destination="u6r-Pl-F6R" kind="presentation" identifier="newSegue" id="KR7-V9-RMI"/>
+                                <segue destination="u6r-Pl-F6R" kind="show" identifier="newSegue" id="KR7-V9-RMI"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="tblHome" destination="zyp-eU-wet" id="Jqj-eS-3XL"/>
+                        <segue destination="u6r-Pl-F6R" kind="presentation" identifier="replySegue" id="4yI-Tm-iFC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h63-Qh-wyA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -529,4 +530,7 @@
         <image name="othersLike" width="28" height="28"/>
         <image name="reTweet" width="28" height="28"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="4yI-Tm-iFC"/>
+    </inferredMetricsTieBreakers>
 </document>
