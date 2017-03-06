@@ -42,12 +42,13 @@ class AddingTweetViewController: UIViewController {
         
         if let tweet = tweet {
             navigationItem.title = "Reply"
-            btnPost.setTitle("Reply", for: .disabled)
-            btnPost.setTitle("Reply", for: .normal)
+            btnPost.setImage(#imageLiteral(resourceName: "comment"), for: .normal)
             lblReplyTo.text = "Reply to \(tweet.user!.name!)"
             viewReplyTo.isHidden = false
             txtContent.text = "@\(tweet.user!.screenname!) "
+            lblCountdownChar.text = "\(Constant.Length_Of_Post - txtContent.text.characters.count)"
         } else {
+            btnPost.setImage(#imageLiteral(resourceName: "post"), for: .normal)
             consReplyToHeight.constant = 0
             self.view.willRemoveSubview(viewReplyTo)
         }

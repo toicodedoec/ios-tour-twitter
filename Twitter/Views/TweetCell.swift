@@ -60,6 +60,8 @@ class TweetCell: UITableViewCell {
             lblTime.sizeToFit()
             lblAccount.sizeToFit()
             
+            lblName.isHidden = true
+            
             if tweet.imageUrls.count > 0 {
                 heightCons.constant = 150
                 imgPostContent.setImageWith(tweet.imageUrls[0], placeholderImage: #imageLiteral(resourceName: "icon"))

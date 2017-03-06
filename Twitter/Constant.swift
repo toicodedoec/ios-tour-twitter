@@ -18,6 +18,8 @@ class Constant {
     
     static let Indentifier_Segue_New = "newSegue"
     
+    static let Indentifier_Segue_Login = "showLogin"
+    
     static let Dummy_Tweet_Id = 1000
     
     static let Empty_String = ""

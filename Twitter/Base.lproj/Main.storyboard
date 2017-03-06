@@ -349,11 +349,10 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lcr-ug-2WR">
                                 <rect key="frame" x="0.0" y="555" width="375" height="48"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zlO-9f-zZ9">
-                                        <rect key="frame" x="312" y="5" width="63" height="38"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zlO-9f-zZ9">
+                                        <rect key="frame" x="355" y="3.5" width="20" height="42"/>
                                         <inset key="contentEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
-                                        <state key="normal" title="Tweet">
+                                        <state key="normal">
                                             <color key="titleColor" red="0.42636984589999999" green="0.6893977523" blue="0.94280797240000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <state key="disabled">
@@ -364,7 +363,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="140" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V7m-Rl-KF9">
-                                        <rect key="frame" x="273" y="14" width="29" height="21"/>
+                                        <rect key="frame" x="316" y="14" width="29" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.42636984589999999" green="0.6893977523" blue="0.94280797240000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -738,6 +737,6 @@
         <image name="reTweet" width="28" height="28"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="skf-0q-eQy"/>
+        <segue reference="KR7-V9-RMI"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -32,7 +32,7 @@ class LoginViewController: UIViewController {
             TwitterClientUtils.shared.currentAccount(success: { (user) in
                 GuiUtils.dismissLoadingIndicator()
                 Yours.shared = user
-                self.performSegue(withIdentifier: "showLogin", sender: self)
+                self.performSegue(withIdentifier: Constant.Indentifier_Segue_Login, sender: self)
             })
         }, failure: { (error) in
             GuiUtils.dismissLoadingIndicator()
