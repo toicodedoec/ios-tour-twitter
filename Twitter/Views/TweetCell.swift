@@ -42,7 +42,7 @@ class TweetCell: UITableViewCell {
         didSet {
             
             if let avatarUrl = tweet.user?.profileImageUrl {
-                imgAvatar.setImageWith(avatarUrl, placeholderImage: #imageLiteral(resourceName: "loading"))
+                imgAvatar.setImageWith(avatarUrl, placeholderImage: #imageLiteral(resourceName: "icon"))
             }
             
             lblAccount.text = tweet.user?.name

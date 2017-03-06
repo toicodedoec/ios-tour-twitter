@@ -20,7 +20,7 @@ class TweetDetailViewController: UIViewController {
     var selectedTweet: Tweet!
     var indexOfTweet: Int!
     
-    var delegate: TweetDetailViewControllerDelegate!
+    var delegate: AddingTweetViewControllerDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,7 +80,7 @@ extension TweetDetailViewController: TweetCellDelegate {
         GuiUtils.dismissLoadingIndicator()
         
         // TODO nil exception @here
-        //delegate.didLikeStateChange!(vc: self)
+        // delegate.didLikeStateChange!(vc: self)
     }
     
     func tweet(cell: TweetCell) {

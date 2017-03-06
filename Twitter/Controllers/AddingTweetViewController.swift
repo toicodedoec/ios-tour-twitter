@@ -151,6 +151,6 @@ extension AddingTweetViewController {
 extension AddingTweetViewController {
     
     @IBAction func hash(_ sender: UIButton) {
-        txtContent.text = "#"
+        txtContent.text = txtContent.text + " # "
     }
 }

@@ -70,6 +70,9 @@ extension HomeViewController {
             self.tweets = tweets
             self.tblHome.reloadData()
             self.refreshControl.endRefreshing()
+        },  failure: { (error) in
+            self.refreshControl.endRefreshing()
+            self.showErrorAlert(title: error.localizedDescription)
         })
     }
     

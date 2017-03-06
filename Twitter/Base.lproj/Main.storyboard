@@ -435,8 +435,8 @@
                                     <constraint firstItem="NSD-Ge-tcm" firstAttribute="centerY" secondItem="lcr-ug-2WR" secondAttribute="centerY" id="xMT-Ls-v7N"/>
                                 </constraints>
                             </view>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="j94-KM-w2D">
-                                <rect key="frame" x="4" y="35" width="375" height="523"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="j94-KM-w2D">
+                                <rect key="frame" x="0.0" y="32" width="375" height="523"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no"/>
