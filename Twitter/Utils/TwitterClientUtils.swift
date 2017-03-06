@@ -64,17 +64,11 @@ class TwitterClientUtils: BDBOAuth1SessionManager {
         
         parameters["exclude_replies"] = true as AnyObject
         
-        if count != nil {
-            parameters["count"] = count! as AnyObject
-        } else {
-            parameters["count"] = 22 as AnyObject
-        }
+        parameters["count"] = count != nil ? count! as AnyObject : 22 as AnyObject
         
         if maxId != nil {
             parameters["max_id"] = maxId! as AnyObject
         }
-        
-        print(parameters)
         
         get("1.1/statuses/home_timeline.json", parameters: parameters, progress: nil, success: { (task, response) in
             let tweets: [Tweet]
@@ -87,7 +81,7 @@ class TwitterClientUtils: BDBOAuth1SessionManager {
             
             success(tweets)
         }) { (task, error) in
-            print("home timeline failed \(error.localizedDescription)")
+            print("Get homeTimeline data failed \(error.localizedDescription)")
             failure?(error)
         }
     }
@@ -112,7 +106,7 @@ class TwitterClientUtils: BDBOAuth1SessionManager {
             let tweet = Tweet(dictionary: dictionary)
             success(tweet)
         }, failure: { (task, error) -> Void in
-            print("like/unlike tweet error: \(error.localizedDescription)")
+            print("Like/unlike tweet error: \(error.localizedDescription)")
             failure?(error)
         })
     }
@@ -125,7 +119,7 @@ class TwitterClientUtils: BDBOAuth1SessionManager {
             let tweet = Tweet(dictionary: dictionary)
             success(tweet)
         }, failure: { (task, error) -> Void in
-            print("tweet state error: \(error.localizedDescription)")
+            print("Retweeting error: \(error.localizedDescription)")
             failure?(error)
         })
     }
@@ -144,7 +138,7 @@ class TwitterClientUtils: BDBOAuth1SessionManager {
             let tweet = Tweet(dictionary: dictionary)
             success(tweet)
         }, failure: { (task, error) -> Void in
-            print("new tweet error: \(error.localizedDescription)")
+            print("Adding tweet/reply error: \(error.localizedDescription)")
             failure?(error)
         })
     }

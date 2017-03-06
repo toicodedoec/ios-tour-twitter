@@ -11,7 +11,8 @@ import UIKit
 class TweetDetailViewController: UIViewController {
     
     @IBOutlet weak var tblTweetDetail: UITableView!
-    var tweet: Tweet!
+    var selectedTweet: Tweet!
+    var indexOfTweet: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,11 +31,11 @@ class TweetDetailViewController: UIViewController {
 
 extension TweetDetailViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return tweet.reply.count > 0 ? 2 : 1
+        return selectedTweet.reply.count > 0 ? 2 : 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 1 : tweet.reply.count
+        return section == 0 ? 1 : selectedTweet.reply.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -43,10 +44,10 @@ extension TweetDetailViewController: UITableViewDataSource, UITableViewDelegate 
         
         switch indexPath.section {
         case 0:
-            cell.tweet = tweet
+            cell.tweet = selectedTweet
             return cell
         case 1:
-            cell.tweet = tweet.reply[indexPath.row]
+            cell.tweet = selectedTweet.reply[indexPath.row]
             return cell
         default:
             return UITableViewCell()
@@ -56,6 +57,24 @@ extension TweetDetailViewController: UITableViewDataSource, UITableViewDelegate 
 
 extension TweetDetailViewController: TweetCellDelegate {
     func reply(cell: TweetCell) {
-        
+        performSegue(withIdentifier: "replySegue", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "replySegue" {
+            let nc = segue.destination as! UINavigationController
+            let vc = nc.topViewController as! AddingTweetViewController
+            
+            vc.tweet = selectedTweet
+            vc.index = indexOfTweet
+            vc.delegate = self
+        }
+    }
+}
+
+extension TweetDetailViewController: AddingTweetViewControllerDelegate {
+    func didReplyingTweet(addingTweet tweet: Tweet, index: Int) {
+        selectedTweet.reply.append(tweet)
+        tblTweetDetail.reloadData()
     }
 }

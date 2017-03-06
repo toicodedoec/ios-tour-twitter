@@ -144,7 +144,8 @@ extension HomeViewController: TweetCellDelegate {
             vc.delegate = self
         } else if segue.identifier == "detailSegue" {
             let nextVc = segue.destination as! TweetDetailViewController
-            nextVc.tweet = tweets[(tblHome.indexPathForSelectedRow?.row)!]
+            nextVc.selectedTweet = tweets[(tblHome.indexPathForSelectedRow?.row)!]
+            nextVc.indexOfTweet = tblHome.indexPathForSelectedRow?.row
         }
     }
 }

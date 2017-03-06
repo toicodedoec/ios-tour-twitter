@@ -9,8 +9,8 @@
 import UIKit
 
 @objc protocol AddingTweetViewControllerDelegate {
-    func didReplyingTweet(addingTweet tweet: Tweet, index: Int)
-    func didAddingTweet(addingTweet tweet: Tweet)
+    @objc optional func didReplyingTweet(addingTweet tweet: Tweet, index: Int)
+    @objc optional func didAddingTweet(addingTweet tweet: Tweet)
 }
 
 class AddingTweetViewController: UIViewController {
@@ -85,7 +85,7 @@ class AddingTweetViewController: UIViewController {
             dismissKeyboard()
             if let tweet = tweet {
                 TwitterClientUtils.shared.processingAddTweet(content: txtContent.text, replyId: tweet.replyId ?? tweet.id, success: { (t) in
-                    self.delegate.didReplyingTweet(addingTweet: t, index: self.index!)
+                    self.delegate.didReplyingTweet!(addingTweet: t, index: self.index!)
                     GuiUtils.dismissLoadingIndicator()
                     self.dismiss(animated: true, completion: nil)
                 }, failure: {(error) -> Void in
@@ -94,7 +94,7 @@ class AddingTweetViewController: UIViewController {
                 })
             } else {
                 TwitterClientUtils.shared.processingAddTweet(content: txtContent.text, replyId: 1000, success: { (t) in
-                    self.delegate.didAddingTweet(addingTweet: t)
+                    self.delegate.didAddingTweet!(addingTweet: t)
                     GuiUtils.dismissLoadingIndicator()
                     self.dismiss(animated: true, completion: nil)
                 }, failure: {(error) -> Void in

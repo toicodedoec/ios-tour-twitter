@@ -716,6 +716,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="tblTweetDetail" destination="0zH-c9-0Jy" id="6Nf-h3-kTl"/>
+                        <segue destination="u6r-Pl-F6R" kind="show" identifier="replySegue" id="skf-0q-eQy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MP5-QQ-Rj3" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -737,6 +738,6 @@
         <image name="reTweet" width="28" height="28"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="KR7-V9-RMI"/>
+        <segue reference="skf-0q-eQy"/>
     </inferredMetricsTieBreakers>
 </document>
