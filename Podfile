@@ -10,5 +10,6 @@ target 'Twitter' do
     pod 'BDBOAuth1Manager', '~> 2.0'
     pod 'SnapKit', '~> 3.0'
     pod 'SVProgressHUD', '~> 2.0'
+    pod 'NSDate+TimeAgo'
 
 end
