@@ -31,12 +31,6 @@ class Tweet: NSObject {
         id = dictionary["id"] as? Int
         text = dictionary["text"] as? String
         
-        if let timestampString = dictionary["created_at"] as? String {
-            let timeFormater = DateFormatter()
-            timeFormater.dateFormat = "EEE MMM d HH:mm:ss Z y"
-            createdAt = timeFormater.date(from: timestampString)
-        }
-        
         retweetCount = dictionary["retweet_count"] as? Int! ?? 0
         favoritesCount = dictionary["favorite_count"] as? Int! ?? 0
         user = dictionary["user"] != nil ? Yours(dictionary: (dictionary["user"] as? NSDictionary)!) : nil
