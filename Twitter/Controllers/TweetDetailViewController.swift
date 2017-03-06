@@ -8,12 +8,19 @@
 
 import UIKit
 
+@objc protocol TweetDetailViewControllerDelegate {
+    @objc optional func didLikeStateChange(vc: TweetDetailViewController)
+    @objc optional func didTweetStateChange(vc: TweetDetailViewController)
+}
+
 class TweetDetailViewController: UIViewController {
     
     @IBOutlet weak var tblTweetDetail: UITableView!
     
     var selectedTweet: Tweet!
     var indexOfTweet: Int!
+    
+    var delegate: TweetDetailViewControllerDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,6 +78,9 @@ extension TweetDetailViewController: TweetCellDelegate {
         
         tblTweetDetail.reloadData()
         GuiUtils.dismissLoadingIndicator()
+        
+        // TODO nil exception @here
+        //delegate.didLikeStateChange!(vc: self)
     }
     
     func tweet(cell: TweetCell) {
@@ -81,6 +91,9 @@ extension TweetDetailViewController: TweetCellDelegate {
         
         tblTweetDetail.reloadData()
         GuiUtils.dismissLoadingIndicator()
+        
+        // TODO nil exception @here
+        //delegate.didTweetStateChange!(vc: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

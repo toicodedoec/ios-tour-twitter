@@ -43,6 +43,10 @@ class HomeViewController: UIViewController {
         loadData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        loadData()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -111,7 +115,7 @@ extension HomeViewController: TweetCellDelegate {
         tweets[(ip?.row)!].isFavorited = cell.tweet.isFavorited
         tweets[(ip?.row)!].favoritesCount = cell.tweet.favoritesCount
         
-        cell.btnLike.imageView?.image = cell.tweet.isFavorited ? #imageLiteral(resourceName: "yourLike") : #imageLiteral(resourceName: "othersLike")
+        //cell.btnLike.imageView?.image = cell.tweet.isFavorited ? #imageLiteral(resourceName: "yourLike") : #imageLiteral(resourceName: "othersLike")
         
         tblHome.reloadRows(at: [ip!], with: .fade)
         GuiUtils.dismissLoadingIndicator()
@@ -130,7 +134,7 @@ extension HomeViewController: TweetCellDelegate {
         tweets[(ip?.row)!].isRetweeted = cell.tweet.isRetweeted
         tweets[(ip?.row)!].retweetCount = cell.tweet.retweetCount
         
-        cell.btnRetweet.imageView?.image = cell.tweet.isRetweeted ? #imageLiteral(resourceName: "reTweeted") : #imageLiteral(resourceName: "reTweet")
+        //cell.btnRetweet.imageView?.image = cell.tweet.isRetweeted ? #imageLiteral(resourceName: "reTweeted") : #imageLiteral(resourceName: "reTweet")
         
         tblHome.reloadRows(at: [ip!], with: .none)
         GuiUtils.dismissLoadingIndicator()
@@ -181,5 +185,25 @@ extension HomeViewController: AddingTweetViewControllerDelegate {
     
     func didReplyingTweet(addingTweet tweet: Tweet, index: Int) {
         tweets[index].reply.append(tweet)
+    }
+}
+
+extension HomeViewController: TweetDetailViewControllerDelegate {
+    func didLikeStateChange(vc: TweetDetailViewController) {
+        let ip = IndexPath(row: vc.indexOfTweet, section: 0)
+        
+        tweets[(ip.row)].isFavorited = vc.selectedTweet.isFavorited
+        tweets[(ip.row)].favoritesCount = vc.selectedTweet.favoritesCount
+        
+        tblHome.reloadRows(at: [ip], with: .fade)
+    }
+    
+    func didTweetStateChange(vc: TweetDetailViewController) {
+        let ip = IndexPath(row: vc.indexOfTweet, section: 0)
+        
+        tweets[(ip.row)].isRetweeted = vc.selectedTweet.isRetweeted
+        tweets[(ip.row)].retweetCount = vc.selectedTweet.retweetCount
+        
+        tblHome.reloadRows(at: [ip], with: .fade)
     }
 }

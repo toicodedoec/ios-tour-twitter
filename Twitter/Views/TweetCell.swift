@@ -52,8 +52,8 @@ class TweetCell: UITableViewCell {
             lblRetweetCounting.text = tweet.retweetCount! > 0 ? "\(tweet.retweetCount!)" : "0"
             lblLikeCounting.text = tweet.favoritesCount! > 0 ? "\(tweet.favoritesCount!)" : "0"
             
-            btnRetweet.imageView?.image = tweet.isRetweeted ? #imageLiteral(resourceName: "reTweeted") : #imageLiteral(resourceName: "reTweet")
-            btnLike.imageView?.image = tweet.isFavorited ? #imageLiteral(resourceName: "yourLike") : #imageLiteral(resourceName: "othersLike")
+            btnRetweet.setImage((tweet.isRetweeted ? #imageLiteral(resourceName: "reTweeted") : #imageLiteral(resourceName: "reTweet")), for: .normal)
+            btnLike.setImage((tweet.isFavorited ? #imageLiteral(resourceName: "yourLike") : #imageLiteral(resourceName: "othersLike")), for: .normal)
             
             lblRetweetCounting.sizeToFit()
             lblLikeCounting.sizeToFit()
