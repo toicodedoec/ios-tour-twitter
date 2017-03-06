@@ -61,6 +61,28 @@ extension TweetDetailViewController: TweetCellDelegate {
         performSegue(withIdentifier: Constant.Indentifier_Segue_Reply, sender: nil)
     }
     
+    func like(cell: TweetCell) {
+        GuiUtils.showLoadingIndicator()
+        
+        selectedTweet.isFavorited = cell.tweet.isFavorited
+        selectedTweet.favoritesCount = cell.tweet.favoritesCount
+        
+        cell.btnLike.imageView?.image = cell.tweet.isFavorited ? #imageLiteral(resourceName: "yourLike") : #imageLiteral(resourceName: "othersLike")
+        
+        tblTweetDetail.reloadData()
+        GuiUtils.dismissLoadingIndicator()
+    }
+    
+    func tweet(cell: TweetCell) {
+        GuiUtils.showLoadingIndicator()
+        selectedTweet.isRetweeted = cell.tweet.isRetweeted
+        selectedTweet.retweetCount = cell.tweet.retweetCount
+        cell.btnRetweet.imageView?.image = cell.tweet.isRetweeted ? #imageLiteral(resourceName: "reTweeted") : #imageLiteral(resourceName: "reTweet")
+        
+        tblTweetDetail.reloadData()
+        GuiUtils.dismissLoadingIndicator()
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constant.Indentifier_Segue_Reply {
             let nc = segue.destination as! UINavigationController
