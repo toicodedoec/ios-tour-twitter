@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import NSDate_TimeAgo
 
 class Tweet: NSObject {
     var id: Int?
@@ -21,6 +22,9 @@ class Tweet: NSObject {
     var replyId: Int?
     var reply = [Tweet]()
     var dictionary: NSDictionary?
+    var timeStamp: String {
+        return (createdAt as NSDate?)?.timeAgo() ?? Constant.Empty_String
+    }
     
     init(dictionary: NSDictionary) {
         self.dictionary = dictionary
@@ -29,7 +33,7 @@ class Tweet: NSObject {
         
         if let timestampString = dictionary["created_at"] as? String {
             let timeFormater = DateFormatter()
-            timeFormater.dateFormat = "EEE MMM d HH:mm:ss Z y" // Tue Aug 28 21:16:23 +0000 2012
+            timeFormater.dateFormat = "EEE MMM d HH:mm:ss Z y"
             createdAt = timeFormater.date(from: timestampString)
         }
         
@@ -48,56 +52,6 @@ class Tweet: NSObject {
         }
         
         replyId = dictionary["in_reply_to_status_id"] as? Int
-    }
-    
-    func createdAtString(short: Bool = true) -> String {
-        var secondLabel: String
-        var minuteLabel: String
-        var hourLabel: String
-        var dayLabel: String
-        
-        if short {
-            secondLabel = "s"
-            minuteLabel = "m"
-            hourLabel = "h"
-            dayLabel = "d"
-        } else {
-            secondLabel = " seconds ago"
-            minuteLabel = " mimutes ago"
-            hourLabel = " hours ago"
-            dayLabel = " days ago"
-        }
-        
-        let min = 60
-        let hour = min * 60
-        let day = hour * 24
-        let week = day * 7
-        let year = day * 365
-        let elapsedTime = Date().timeIntervalSince(createdAt!)
-        let duration = Int(elapsedTime)
-        
-        if duration < min {
-            return "\(duration)\(secondLabel)"
-        } else if duration < hour {
-            let minDur = duration / min
-            return "\(minDur)\(minuteLabel)"
-        } else if duration < day {
-            let hourDur = duration / hour
-            return "\(hourDur)\(hourLabel)"
-        } else if duration < week {
-            let dayDur = duration / day
-            return "\(dayDur)\(dayLabel)"
-        } else if duration < year {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "dMMM"
-            let dateString = dateFormatter.string(from: createdAt!)
-            return dateString
-        } else {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "dMMM y"
-            let dateString = dateFormatter.string(from: createdAt!)
-            return dateString
-        }
     }
     
     class func tweetsArray(dictionarys: [NSDictionary]) -> [Tweet] {

@@ -11,6 +11,7 @@ import UIKit
 class TweetDetailViewController: UIViewController {
     
     @IBOutlet weak var tblTweetDetail: UITableView!
+    
     var selectedTweet: Tweet!
     var indexOfTweet: Int!
     
@@ -57,11 +58,11 @@ extension TweetDetailViewController: UITableViewDataSource, UITableViewDelegate 
 
 extension TweetDetailViewController: TweetCellDelegate {
     func reply(cell: TweetCell) {
-        performSegue(withIdentifier: "replySegue", sender: nil)
+        performSegue(withIdentifier: Constant.Indentifier_Segue_Reply, sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "replySegue" {
+        if segue.identifier == Constant.Indentifier_Segue_Reply {
             let nc = segue.destination as! UINavigationController
             let vc = nc.topViewController as! AddingTweetViewController
             

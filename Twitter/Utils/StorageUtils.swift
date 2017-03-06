@@ -7,7 +7,6 @@
 //
 
 import Foundation
-
 import BDBOAuth1Manager
 
 class StorageUtils {
@@ -31,7 +30,6 @@ class StorageUtils {
         var user: Yours?
         if let data = defaults.object(forKey: userKey) as? Data {
             let dictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
-            //            print(dictionary)
             user = Yours(dictionary: dictionary)
         }
         

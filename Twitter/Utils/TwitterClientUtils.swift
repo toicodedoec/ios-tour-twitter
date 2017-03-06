@@ -47,6 +47,61 @@ class TwitterClientUtils: BDBOAuth1SessionManager {
         })
     }
     
+    /**
+     * Process Like/Unlike action on one tweet.
+     */
+    func processingLikeState(id: Int, isFavorited: Bool, success: @escaping (Tweet) -> Void, failure: ((Error) -> Void)? = nil) {
+        var params = [String: AnyObject]()
+        params["id"] = id as AnyObject
+        
+        let url: String = isFavorited ? "1.1/favorites/destroy.json" : "1.1/favorites/create.json"
+        post(url, parameters: params, progress: nil, success: { (task, response) -> Void in
+            let dictionary = response as! NSDictionary
+            let tweet = Tweet(dictionary: dictionary)
+            success(tweet)
+        }, failure: { (task, error) -> Void in
+            print("Like/unlike tweet error: \(error.localizedDescription)")
+            failure?(error)
+        })
+    }
+    
+    /**
+     * Process Retweet/Unretweet action on one tweet.
+     */
+    func processingRetweetState(id: Int, isTweeted: Bool, success: @escaping (Tweet) -> Void, failure: ((Error) -> Void)? = nil) {
+        let url = !isTweeted ? "1.1/statuses/retweet/\(id).json" : "1.1/statuses/unretweet/\(id).json"
+        
+        post(url, parameters: nil, progress: nil, success: { (task, response) -> Void in
+            let dictionary = response as! NSDictionary
+            let tweet = Tweet(dictionary: dictionary)
+            success(tweet)
+        }, failure: { (task, error) -> Void in
+            print("Retweeting error: \(error.localizedDescription)")
+            failure?(error)
+        })
+    }
+    
+    /**
+     * Process Add new tweet/reply on one tweet.
+     */
+    func processingAddTweet(content: String, replyId: Int?, success: @escaping (Tweet) -> Void, failure: ((Error) -> Void)? = nil) {
+        var params = [String: AnyObject]()
+        params["status"] = content as AnyObject
+        
+        if let replyId = replyId {
+            params["in_reply_to_status_id"] = replyId as AnyObject
+        }
+        
+        post("1.1/statuses/update.json", parameters: params, progress: nil, success: { (task, response) -> Void in
+            let dictionary = response as! NSDictionary
+            let tweet = Tweet(dictionary: dictionary)
+            success(tweet)
+        }, failure: { (task, error) -> Void in
+            print("Adding tweet/reply error: \(error.localizedDescription)")
+            failure?(error)
+        })
+    }
+    
     func handleOpenUrl(url: URL) {
         let requestToken = BDBOAuth1Credential(queryString: url.query)
         fetchAccessToken(withPath: "oauth/access_token", method: "POST", requestToken: requestToken, success: { (access_token) in
@@ -94,53 +149,6 @@ class TwitterClientUtils: BDBOAuth1SessionManager {
         }) { (task, error) in
             self.loginFailure?(error)
         }
-    }
-    
-    func processingLikeState(id: Int, isFavorited: Bool, success: @escaping (Tweet) -> Void, failure: ((Error) -> Void)? = nil) {
-        var params = [String: AnyObject]()
-        params["id"] = id as AnyObject
-        
-        let url: String = isFavorited ? "1.1/favorites/destroy.json" : "1.1/favorites/create.json"
-        post(url, parameters: params, progress: nil, success: { (task, response) -> Void in
-            let dictionary = response as! NSDictionary
-            let tweet = Tweet(dictionary: dictionary)
-            success(tweet)
-        }, failure: { (task, error) -> Void in
-            print("Like/unlike tweet error: \(error.localizedDescription)")
-            failure?(error)
-        })
-    }
-    
-    func processingRetweetState(id: Int, isTweeted: Bool, success: @escaping (Tweet) -> Void, failure: ((Error) -> Void)? = nil) {
-        let url = !isTweeted ? "1.1/statuses/retweet/\(id).json" : "1.1/statuses/unretweet/\(id).json"
-        
-        post(url, parameters: nil, progress: nil, success: { (task, response) -> Void in
-            let dictionary = response as! NSDictionary
-            let tweet = Tweet(dictionary: dictionary)
-            success(tweet)
-        }, failure: { (task, error) -> Void in
-            print("Retweeting error: \(error.localizedDescription)")
-            failure?(error)
-        })
-    }
-    
-    // new tweet
-    func processingAddTweet(content: String, replyId: Int?, success: @escaping (Tweet) -> Void, failure: ((Error) -> Void)? = nil) {
-        var params = [String: AnyObject]()
-        params["status"] = content as AnyObject
-        
-        if let replyId = replyId {
-            params["in_reply_to_status_id"] = replyId as AnyObject
-        }
-        
-        post("1.1/statuses/update.json", parameters: params, progress: nil, success: { (task, response) -> Void in
-            let dictionary = response as! NSDictionary
-            let tweet = Tweet(dictionary: dictionary)
-            success(tweet)
-        }, failure: { (task, error) -> Void in
-            print("Adding tweet/reply error: \(error.localizedDescription)")
-            failure?(error)
-        })
     }
 }
 

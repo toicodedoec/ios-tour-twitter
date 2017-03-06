@@ -48,6 +48,19 @@ class HomeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func logOut(_ sender: UIBarButtonItem) {
+        TwitterClientUtils.shared.requestSerializer.removeAccessToken()
+        Yours.shared = nil
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginViewController")
+        appDelegate.window?.rootViewController = nextVC
+    }
+    
+}
+
+// MARK: - Load data functions
+extension HomeViewController {
     func loadData() {
         TwitterClientUtils.shared.homeTimeline(count: nil, maxId: nil, success: { (tweets) in
             self.tweets = tweets
@@ -68,18 +81,9 @@ class HomeViewController: UIViewController {
             self.loadingMoreView!.stopAnimating()
         }
     }
-    
-    @IBAction func logOut(_ sender: UIBarButtonItem) {
-        TwitterClientUtils.shared.requestSerializer.removeAccessToken()
-        Yours.shared = nil
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let nextVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginViewController")
-        appDelegate.window?.rootViewController = nextVC
-    }
-    
 }
 
+// MARK: - Setup UITableView
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tweets.count
@@ -93,11 +97,13 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "detailSegue", sender: self)
+        performSegue(withIdentifier: Constant.Indentifier_Segue_Detail, sender: self)
     }
 }
 
+// MARK: - Delegate processing
 extension HomeViewController: TweetCellDelegate {
+    
     func like(cell: TweetCell) {
         GuiUtils.showLoadingIndicator()
         let ip = tblHome.indexPath(for: cell)
@@ -114,7 +120,7 @@ extension HomeViewController: TweetCellDelegate {
     func reply(cell: TweetCell) {
         let ip = tblHome.indexPath(for: cell)
         let data = [cell.tweet, ip?.row as AnyObject] as [AnyObject]
-        performSegue(withIdentifier: "replySegue", sender: data)
+        performSegue(withIdentifier: Constant.Indentifier_Segue_Reply, sender: data)
     }
     
     func tweet(cell: TweetCell) {
@@ -131,18 +137,18 @@ extension HomeViewController: TweetCellDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "replySegue" {
+        if segue.identifier == Constant.Indentifier_Segue_Reply {
             let data = sender as! [AnyObject]
             let nc = segue.destination as! UINavigationController
             let vc = nc.topViewController as! AddingTweetViewController
             vc.tweet = data[0] as? Tweet
             vc.index = data[1] as? Int
             vc.delegate = self
-        } else if segue.identifier == "newSegue" {
+        } else if segue.identifier == Constant.Indentifier_Segue_New {
             let nc = segue.destination as! UINavigationController
             let vc = nc.topViewController as! AddingTweetViewController
             vc.delegate = self
-        } else if segue.identifier == "detailSegue" {
+        } else if segue.identifier == Constant.Indentifier_Segue_Detail {
             let nextVc = segue.destination as! TweetDetailViewController
             nextVc.selectedTweet = tweets[(tblHome.indexPathForSelectedRow?.row)!]
             nextVc.indexOfTweet = tblHome.indexPathForSelectedRow?.row
@@ -151,6 +157,7 @@ extension HomeViewController: TweetCellDelegate {
 }
 
 extension HomeViewController: UIScrollViewDelegate {
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (!isLoadingMore) {
             let scrollViewContentHeight = tblHome.contentSize.height
@@ -159,7 +166,6 @@ extension HomeViewController: UIScrollViewDelegate {
             if(scrollView.contentOffset.y > scrollOffsetThreshold && tblHome.isDragging) {
                 isLoadingMore = true
                 loadingMoreView!.startAnimating()
-                
                 loadMoreTweet()
             }
         }
@@ -167,12 +173,13 @@ extension HomeViewController: UIScrollViewDelegate {
 }
 
 extension HomeViewController: AddingTweetViewControllerDelegate {
+    
     func didAddingTweet(addingTweet tweet: Tweet) {
         tweets.insert(tweet, at: 0)
         tblHome.reloadData()
     }
+    
     func didReplyingTweet(addingTweet tweet: Tweet, index: Int) {
         tweets[index].reply.append(tweet)
     }
 }
-

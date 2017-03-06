@@ -14,8 +14,8 @@ import UIKit
 }
 
 class AddingTweetViewController: UIViewController {
-    @IBOutlet weak var imgAvatar: UIImageView!
     
+    @IBOutlet weak var imgAvatar: UIImageView!
     @IBOutlet weak var txtContent: UITextView!
     @IBOutlet weak var lblCountdownChar: UILabel!
     @IBOutlet weak var btnPost: UIButton!
@@ -30,6 +30,7 @@ class AddingTweetViewController: UIViewController {
     var isOk: Bool = false;
     var tweet: Tweet?
     var index: Int?
+    
     var delegate: AddingTweetViewControllerDelegate!
     
     override func viewDidLoad() {
@@ -54,8 +55,8 @@ class AddingTweetViewController: UIViewController {
         // Do any additional setup after loading the view.
         btnPost.isEnabled = isOk
         btnHash.isEnabled = true
-        btnLink.isEnabled = true
-        btnAttach.isEnabled = true
+        btnLink.isEnabled = false
+        btnAttach.isEnabled = false
         
         txtContent.delegate = self
         txtContent.becomeFirstResponder()
@@ -68,10 +69,6 @@ class AddingTweetViewController: UIViewController {
             object: nil
         )
         tapToDimissKeyboard()
-    }
-    
-    @IBAction func hash(_ sender: UIButton) {
-        txtContent.text = "#"
     }
     
     override func didReceiveMemoryWarning() {
@@ -93,7 +90,7 @@ class AddingTweetViewController: UIViewController {
                     self.showErrorAlert(title: error.localizedDescription)
                 })
             } else {
-                TwitterClientUtils.shared.processingAddTweet(content: txtContent.text, replyId: 1000, success: { (t) in
+                TwitterClientUtils.shared.processingAddTweet(content: txtContent.text, replyId: Constant.Dummy_Tweet_Id, success: { (t) in
                     self.delegate.didAddingTweet!(addingTweet: t)
                     GuiUtils.dismissLoadingIndicator()
                     self.dismiss(animated: true, completion: nil)
@@ -111,6 +108,7 @@ class AddingTweetViewController: UIViewController {
     }
 }
 
+// MARK: - Delegate processing
 extension AddingTweetViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         isOk = textView.text.characters.count <= Constant.Length_Of_Post
@@ -121,6 +119,7 @@ extension AddingTweetViewController: UITextViewDelegate {
     }
 }
 
+// MARK: - Keyboard functions
 extension AddingTweetViewController {
     
     func adjustInsetForKeyboardShow(notification: NSNotification) {
@@ -147,6 +146,10 @@ extension AddingTweetViewController {
     }
 }
 
-// MARK: -Toolbar functions
+// MARK: - Toolbar functions
 extension AddingTweetViewController {
+    
+    @IBAction func hash(_ sender: UIButton) {
+        txtContent.text = "#"
+    }
 }

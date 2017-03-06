@@ -47,7 +47,7 @@ class TweetCell: UITableViewCell {
             
             lblAccount.text = tweet.user?.name
             lblName.text = tweet.user?.screenname
-            lblTime.text = "\(tweet.createdAtString(short: true))"
+            lblTime.text = "\(tweet.timeStamp)"
             lblPostContent.text = tweet.text
             lblRetweetCounting.text = tweet.retweetCount! > 0 ? "\(tweet.retweetCount!)" : "0"
             lblLikeCounting.text = tweet.favoritesCount! > 0 ? "\(tweet.favoritesCount!)" : "0"
@@ -57,6 +57,8 @@ class TweetCell: UITableViewCell {
             
             lblRetweetCounting.sizeToFit()
             lblLikeCounting.sizeToFit()
+            lblTime.sizeToFit()
+            lblAccount.sizeToFit()
             
             if tweet.imageUrls.count > 0 {
                 heightCons.constant = 150
